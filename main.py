@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import random
 
 
-def add_unvisited_node(unvisited_nodes, edge):
-    if edge[0] not in unvisited_nodes:
-        unvisited_nodes.append(edge[0])
-    if edge[1] not in unvisited_nodes:
-        unvisited_nodes.append(edge[1])
+def add_nodes_with_neighbors(nodes_with_neighbors, edge):
+    if edge[0] not in nodes_with_neighbors:
+        nodes_with_neighbors.append(edge[0])
+    if edge[1] not in nodes_with_neighbors:
+        nodes_with_neighbors.append(edge[1])
 
 
 def get_min_edge(min_edge, edge):
@@ -22,10 +22,20 @@ def shortest_unbroken_path(edges):
     unvisited_nodes = []
     for edge in edges:
         min_edge = get_min_edge(min_edge, edge)
-        add_unvisited_node(unvisited_nodes, edge)
+        add_nodes_with_neighbors(unvisited_nodes, edge)
     while unvisited_nodes:
         unvisited_nodes.pop()
 
+
+def set_random_points():
+    for i in range(n):
+        for j in range(i + 1, n):
+            if random.randint(0, 1) == 1:
+                x = random.randint(1, 9)
+                weights[(i, j)] = x
+                edge = (i, j, x)
+                edges.append(edge)
+                add_nodes_with_neighbors(nodes_with_neighbors, edge)
 
 
 if __name__ == '__main__':
@@ -34,12 +44,11 @@ if __name__ == '__main__':
     nodes = range(n)
     edges = []
     weights = {}
-    for i in range(n):
-        for j in range(i + 1, n):
-            if random.randint(0, 1) == 1:
-                x = random.randint(1, 9)
-                weights[(i, j)] = x
-                edges.append((i, j, x))
+    nodes_with_neighbors = []
+    while len(nodes_with_neighbors) != n:
+        nodes_with_neighbors.clear()
+        set_random_points()
+
     G.add_nodes_from(nodes)
     G.add_weighted_edges_from(edges)
     pos = nx.spring_layout(G)
