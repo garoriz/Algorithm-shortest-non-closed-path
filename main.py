@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 
-def add_nodes_with_neighbors(nodes_with_neighbors, edge):
+def add_nodes_with_neighbors(edge):
     if edge[0] not in nodes_with_neighbors:
         nodes_with_neighbors.append(edge[0])
     if edge[1] not in nodes_with_neighbors:
@@ -17,14 +17,13 @@ def get_min_edge(min_edge, edge):
         return min_edge
 
 
-def shortest_unbroken_path(edges):
+def shortest_unbroken_path():
     min_edge = edges[0]
-    unvisited_nodes = []
     for edge in edges:
         min_edge = get_min_edge(min_edge, edge)
-        add_nodes_with_neighbors(unvisited_nodes, edge)
-    while unvisited_nodes:
-        unvisited_nodes.pop()
+        add_nodes_with_neighbors(edge)
+    while nodes_with_neighbors:
+        pass
 
 
 def set_random_points():
@@ -35,7 +34,7 @@ def set_random_points():
                 weights[(i, j)] = x
                 edge = (i, j, x)
                 edges.append(edge)
-                add_nodes_with_neighbors(nodes_with_neighbors, edge)
+                add_nodes_with_neighbors(edge)
 
 
 if __name__ == '__main__':
@@ -56,4 +55,4 @@ if __name__ == '__main__':
     nx.draw_networkx_edge_labels(G, pos, edge_labels=weights)
     plt.show()
 
-    shortest_unbroken_path(edges)
+    shortest_unbroken_path()
