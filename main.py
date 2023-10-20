@@ -17,13 +17,39 @@ def get_min_edge(min_edge, edge):
         return min_edge
 
 
+def find_nearest_edge(visited_points):
+    min_edge = (-1, -1, 10)
+    for edge in edges:
+        if edge[0] in visited_points and edge[1] in visited_points:
+            continue
+        if edge[0] in visited_points or edge[1] in visited_points:
+            min_edge = get_min_edge(min_edge, edge)
+    return min_edge
+
+
 def shortest_unbroken_path():
     min_edge = edges[0]
     for edge in edges:
         min_edge = get_min_edge(min_edge, edge)
-        add_nodes_with_neighbors(edge)
+    edges.remove(min_edge)
+    min_edges = [min_edge]
+    visited_points = [min_edge[0], min_edge[1]]
+    nodes_with_neighbors.remove(min_edge[0])
+    nodes_with_neighbors.remove(min_edge[1])
     while nodes_with_neighbors:
-        pass
+        nearest_edge = find_nearest_edge(visited_points)
+        min_edges.append(nearest_edge)
+        if nearest_edge[0] not in visited_points:
+            visited_points.append(nearest_edge[0])
+        if nearest_edge[1] not in visited_points:
+            visited_points.append(nearest_edge[1])
+        if nearest_edge[0] in nodes_with_neighbors:
+            nodes_with_neighbors.remove(nearest_edge[0])
+        if nearest_edge[1] in nodes_with_neighbors:
+            nodes_with_neighbors.remove(nearest_edge[1])
+        edges.remove(nearest_edge)
+    # draw_tree()
+
 
 
 def set_random_points():
