@@ -27,6 +27,10 @@ def find_nearest_edge(visited_points):
     return min_edge
 
 
+def draw_tree():
+    pass
+
+
 def shortest_unbroken_path():
     min_edge = edges[0]
     for edge in edges:
@@ -48,8 +52,7 @@ def shortest_unbroken_path():
         if nearest_edge[1] in nodes_with_neighbors:
             nodes_with_neighbors.remove(nearest_edge[1])
         edges.remove(nearest_edge)
-    # draw_tree()
-
+    draw_tree()
 
 
 def set_random_points():
