@@ -27,8 +27,13 @@ def find_nearest_edge(visited_points):
     return min_edge
 
 
-def draw_tree():
-    pass
+def draw_tree(G, node_arr, edge_arr, weight_arr):
+    G.add_nodes_from(node_arr)
+    G.add_weighted_edges_from(edge_arr)
+    pos = nx.spring_layout(G)
+    nx.draw(G, pos, with_labels=True)
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=weight_arr)
+    plt.show()
 
 
 def shortest_unbroken_path():
@@ -40,6 +45,7 @@ def shortest_unbroken_path():
     visited_points = [min_edge[0], min_edge[1]]
     nodes_with_neighbors.remove(min_edge[0])
     nodes_with_neighbors.remove(min_edge[1])
+    min_weights = {(min_edge[0], min_edge[1]): min_edge[2]}
     while nodes_with_neighbors:
         nearest_edge = find_nearest_edge(visited_points)
         min_edges.append(nearest_edge)
@@ -52,7 +58,9 @@ def shortest_unbroken_path():
         if nearest_edge[1] in nodes_with_neighbors:
             nodes_with_neighbors.remove(nearest_edge[1])
         edges.remove(nearest_edge)
-    draw_tree()
+        min_weights[(nearest_edge[0], nearest_edge[1])] = nearest_edge[2]
+
+    draw_tree(nx.Graph(), visited_points, min_edges, min_weights)
 
 
 def set_random_points():
@@ -67,7 +75,6 @@ def set_random_points():
 
 
 if __name__ == '__main__':
-    G = nx.Graph()
     n = 5
     nodes = range(n)
     edges = []
@@ -77,11 +84,6 @@ if __name__ == '__main__':
         nodes_with_neighbors.clear()
         set_random_points()
 
-    G.add_nodes_from(nodes)
-    G.add_weighted_edges_from(edges)
-    pos = nx.spring_layout(G)
-    nx.draw(G, pos, with_labels=True)
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=weights)
-    plt.show()
+    draw_tree(nx.Graph(), nodes, edges, weights)
 
     shortest_unbroken_path()
