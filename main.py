@@ -87,3 +87,5 @@ if __name__ == '__main__':
     draw_tree(nx.Graph(), nodes, edges, weights)
 
     shortest_unbroken_path()
+
+    k = 2
