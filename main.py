@@ -89,3 +89,6 @@ if __name__ == '__main__':
     shortest_unbroken_path()
 
     k = 2
+
+    while k > 0:
+        pass
