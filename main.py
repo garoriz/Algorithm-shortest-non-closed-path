@@ -91,4 +91,4 @@ if __name__ == '__main__':
     k = 2
 
     while k > 0:
-        pass
+        k -= 1
