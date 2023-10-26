@@ -74,6 +74,10 @@ def set_random_points():
                 add_nodes_with_neighbors(edge)
 
 
+def delete_longest_edges():
+    pass
+
+
 if __name__ == '__main__':
     n = 5
     nodes = range(n)
@@ -91,4 +95,5 @@ if __name__ == '__main__':
     k = 2
 
     while k > 0:
+        delete_longest_edges()
         k -= 1
