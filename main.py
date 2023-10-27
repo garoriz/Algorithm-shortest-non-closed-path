@@ -17,6 +17,13 @@ def get_min_edge(min_edge, edge):
         return min_edge
 
 
+def get_max_edge(max_edge, edge):
+    if max_edge[2] < edge[2]:
+        return edge
+    else:
+        return max_edge
+
+
 def find_nearest_edge(visited_points):
     min_edge = (-1, -1, 10)
     for edge in edges:
@@ -41,7 +48,7 @@ def shortest_unbroken_path():
     for edge in edges:
         min_edge = get_min_edge(min_edge, edge)
     edges.remove(min_edge)
-    min_edges = [min_edge]
+    min_edges.append(min_edge)
     visited_points = [min_edge[0], min_edge[1]]
     nodes_with_neighbors.remove(min_edge[0])
     nodes_with_neighbors.remove(min_edge[1])
@@ -74,8 +81,11 @@ def set_random_points():
                 add_nodes_with_neighbors(edge)
 
 
-def delete_longest_edges():
-    pass
+def delete_longest_edge():
+    max_edge = (-1, -1, 0)
+    for edge in min_edges:
+        max_edge = get_max_edge(max_edge, edge)
+    min_edges.remove(max_edge)
 
 
 if __name__ == '__main__':
@@ -90,10 +100,11 @@ if __name__ == '__main__':
 
     draw_tree(nx.Graph(), nodes, edges, weights)
 
+    min_edges = []
     shortest_unbroken_path()
 
     k = 2
 
     while k > 0:
-        delete_longest_edges()
+        delete_longest_edge()
         k -= 1
