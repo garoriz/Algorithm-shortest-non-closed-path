@@ -86,6 +86,38 @@ def delete_longest_edge():
     for edge in min_edges:
         max_edge = get_max_edge(max_edge, edge)
     min_edges.remove(max_edge)
+    weights.pop((max_edge[0], max_edge[1]))
+
+
+def get_final_min_weights():
+    min_weights = {}
+    for edge in min_edges:
+        min_weights[(edge[0], edge[1])] = edge[2]
+    return min_weights
+
+
+def set_neighbours_in_cluster(cluster, visited_nodes):
+    for weight in final_min_weights:
+        if weight[0] in cluster and weight[1] not in cluster:
+            cluster.append(weight[1])
+            visited_nodes.append(weight[1])
+        if weight[1] in cluster and weight[0] not in cluster:
+            cluster.append(weight[0])
+            visited_nodes.append(weight[0])
+
+
+def print_clusters():
+    cluster_number = 1
+    visited_nodes = []
+    for node in nodes:
+        cluster = []
+        if node in visited_nodes:
+            continue
+        cluster.append(node)
+        visited_nodes.append(node)
+        set_neighbours_in_cluster(cluster, visited_nodes)
+        print("cluster", cluster_number, ":", cluster)
+        cluster_number += 1
 
 
 if __name__ == '__main__':
@@ -108,3 +140,7 @@ if __name__ == '__main__':
     while k > 0:
         delete_longest_edge()
         k -= 1
+
+    final_min_weights = get_final_min_weights()
+    draw_tree(nx.Graph(), nodes, min_edges, final_min_weights)
+    print_clusters()
