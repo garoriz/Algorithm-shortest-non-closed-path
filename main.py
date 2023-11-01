@@ -121,7 +121,7 @@ def print_clusters():
 
 
 if __name__ == '__main__':
-    n = 5
+    n = 10
     nodes = range(n)
     edges = []
     weights = {}
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     min_edges = []
     shortest_unbroken_path()
 
-    k = 2
+    k = 3
 
     while k > 0:
         delete_longest_edge()
